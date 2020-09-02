@@ -1,0 +1,21 @@
+<h1>Search by Hero Name:</h1>
+
+<%= form_tag(users_path, method: :get) do %>
+<p> 
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= submit_tag ("Search") %>
+</p>
+<% end %>
+
+<h2><%= link_to "Search Heroes by Price", new_search_path %></h2>
+
+
+<% if @users %>
+    <h1>List of All Available Heroes:</h1>
+    <% @users.each do |us| %>
+        <%= link_to us.name, user_path(us) %><br> 
+    <% end %> 
+<% else %> 
+    <h1>There are currently no Heroes listed.</h1>
+    <%= link_to "Search Superheroes", superheros_path %>
+<% end %>

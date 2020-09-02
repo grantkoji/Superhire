@@ -1,0 +1,79 @@
+<h1>Superhero Page</h1>
+
+Name: <%= @superhero.name %><br>
+Alias: <%= @superhero.alter_ego %><br>
+Hourly Rate: <%= @superhero.price %><br>
+<h3>Abilities: </h3>
+Intelligence: <%= @superhero.intelligence %><br>
+Strength: <%= @superhero.strength %><br>
+Speed: <%= @superhero.speed %><br>
+Durability: <%= @superhero.durability %><br>
+Power: <%= @superhero.power %><br>
+Combat: <%= @superhero.combat %><br>
+This Superhero is currently listed as a <%= @superhero.alignment %> superhero.<br>
+<p></p>
+<% if flash[:errors] %>
+    <h1> Invalid Entry: </h1>
+    <% flash[:errors].each do |error| %>
+        <h3> <%= error %> </h3>
+    <% end %>
+<% end %>
+
+<% if @current_user.is_premium == false %>
+    <% if session[:view_count] % 2 == 1 %>
+    <iframe width="731" height="489" src="https://www.youtube.com/embed/8rwPovyR9HY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% else %>
+    <iframe width="821" height="462" src="https://www.youtube.com/embed/UiyDmqO59QE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %> 
+<% end %>
+
+<% if @superhero.appointments.any? %>  
+    <h2> This Superhero has Booked </h2>
+    <% @superhero.superhero_appointments.each do |appt| %>
+        <% cust = User.find_by(id: appt.customer_id) %> 
+        
+               <p></p>From <%= appt.start_time %> <%= appt.start_ampm %> to <%= appt.end_time %> <%= appt.end_ampm %> - Location: <%= appt.location %><br><br>
+               Client: <%= cust.first_name %> <%= cust.last_name %><br>
+               Services Requested: <%= appt.description_of_service %><br>
+    <% end %>
+<% else %> 
+    <h2>This Superhero has yet to book any appointments.</h2>
+<% end %> 
+
+    <h2> Book an Appointment with <%= @superhero.name %></h2>
+    <%= form_for @appointment do |f| %>
+        <%= f.label :location %><br>
+        <%= f.select :location, ["DC", "NY"] %><br>
+
+        <%= f.label :start_time %><br>
+        <%= f.select :start_time, [1,2,3,4,5,6,7,8,9,10,11,12] %>
+        <%= f.select :start_ampm, ["AM", "PM"] %><br>
+
+        <%= f.label :end_time %><br>
+        <%= f.select :end_time, [1,2,3,4,5,6,7,8,9,10,11,12] %>
+        <%= f.select :end_ampm, ["AM", "PM"] %><br>
+
+        <%= f.label :description_of_service %><br>
+        <%= f.select :description_of_service, ["Protection", "Entertainment", "Chores", "Travel", "Felonious Robbery"] %><br>
+
+        <%= f.hidden_field :customer_id, :value => @current_user.id %>
+        <%= f.hidden_field :superhero_id, :value => @superhero.id %> 
+
+        <%= f.submit %>
+
+    <% end %> 
+
+    <%= image_tag("#{@superhero.img_url}") %>
+
+    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br> 
+<p></p>

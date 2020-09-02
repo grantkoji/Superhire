@@ -1,0 +1,17 @@
+<h1> Appointment Confirmed </h1>
+
+<h2> From <%= @appointment.start_time %> <%= @appointment.start_ampm %> until <%= @appointment.end_time %> <%= @appointment.end_ampm %> at <%= @appointment.location %> 
+<% customer = User.find_by(id: @appointment.customer_id) %>
+<h2>Customer: <%= link_to customer.first_and_last_name, user_path(customer) %></h2>
+
+<% if @appointment.superhero_id %>
+    <% superhero = Superhero.find_by(id: @appointment.superhero_id) %>
+    <h2>Superhero: <%= link_to superhero.name, superhero_path(superhero) %> </h2>
+<% elsif @appointment.hrs_id %>
+    <% hero = User.find_by(id: @appointment.hrs_id) %>
+    <h2>Hero: <%= link_to hero.name, user_path(hero) %></h2>
+<% end %>
+
+<h2> Services: <%= @appointment.description_of_service %> </h2>
+
+

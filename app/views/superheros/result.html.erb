@@ -1,0 +1,5 @@
+<h1>Here Are Your Search Results:</h1>
+
+<% @found_superheros.each do |superhero| %>
+    <%= link_to superhero.name_and_alter, superhero_path(superhero) %><br>
+<% end %>

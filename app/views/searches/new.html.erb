@@ -1,0 +1,17 @@
+<h1>Advanced Search</h1>
+
+<% if @current_user.is_premium == false %>
+
+<% end %>
+
+<%= form_for @search do |f| %>
+    <label>Minimum Hourly Rate</label><br>
+    <%= number_field_tag :minimum_price %><br>
+    <label>Maximum Hourly Rate</label><br>
+    <%= number_field_tag :maximum_price %><br>
+    <%= f.submit %>
+<% end %>
+
+<%= image_tag("https://www.superherodb.com/pictures2/portraits/10/100/55.jpg") %>
+
+

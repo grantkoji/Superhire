@@ -1,0 +1,42 @@
+<h1>Here Are Your Advances Search Results:</h1>
+
+<% if @results == nil %>
+    <h2>No Heroes Matched Your Search by Price</h2>
+    <h2><%= link_to "Try Another Search by Price", new_search_path %></h2>
+<% elsif @results %>
+    <h2>Click on the Matching Hero to Book an Appointment</h2>
+    <ul>
+    <% @results.each do |hero| %>
+      <h3><%= link_to hero.name, user_path(hero) %> is available at a rate of $<%= hero.price %> per hour</h3>
+        <% end %>
+
+        <h2><%= link_to "Try Another Search by Price", new_search_path %></h2>
+<% else %>
+    <h2>No Heroes Matched Your Search by Price</h2>
+    <h2><%= link_to "Try Another Search by Price", new_search_path %></h2>
+
+    
+<% end %>
+
+<p></p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>

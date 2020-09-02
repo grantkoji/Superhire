@@ -1,0 +1,80 @@
+<% if @user.is_hero %>
+    <h1>Edit Your Hero</h1>
+<% else %>
+    <h1>Edit Your User</h1>
+<% end %>
+
+<% if flash[:errors] %>
+  <h2><%= flash[:errors] %></h2>
+<% end %>
+
+<% if @user.is_hero == true && @user.intelligence == 0 && @user.strength == 0 && @user.durability %>
+    <h2> Please Fill Out Your Hero Attributes at the Bottom of this Form:</h2>
+    <h3> Note that Our Audit Team Includes Professor Charles Xavier </h3>
+    <h3> Any False Claims about Your Abilities Will be Treated as Fraud </h3> 
+    <%= image_tag("https://www.superherodb.com/pictures2/portraits/10/100/113.jpg") %>
+<% end %>
+
+<%= form_for @user do |f| %>
+  <%= f.label :username %>
+  <%= f.text_field :username %><br>
+  <label>Password</label>
+  <%= f.password_field :password %><br>
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name %><br>
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name %><br>
+  <%= f.label :location %>
+  <%= f.select :location, ["DC", "NY", "SF"] %><br>
+  <label>Do you want a premium membership?</label>
+  <%= f.select :is_premium, [["Yes", true], ["No", false]] %><br>
+   <label>Are you signing up as a hero?</label>
+   <%= f.select :is_hero, [["Yes", true], ["No", false]] %><br>
+
+        
+    <h2>For Heroes ONLY:</h2>    
+    <p>If you're not a hero, skip to 'Update User' below.</p>
+    <h2>Enter Hero Information Below:</h2> 
+    <label>Hero Name</label>
+    <%= f.text_field :name %><br>
+    <h4>Hero Attritube Ratings:</h4>
+    <%= f.label :intelligence %>
+    <%= f.text_field :intelligence %><br>
+    <div> <%= f.label :strength %>
+    <%= f.text_field :strength %><br></div>    <%= f.label :speed %>
+    <%= f.text_field :speed %><br>
+    <%= f.label :durability %>
+    <%= f.text_field :durability %><br>
+    <%= f.label :power %>
+    <%= f.text_field :power %><br>
+    <%= f.label :combat %>
+    <%= f.text_field :combat %><br>
+
+
+    <label> Photo URL (optional) </label>
+    <%= f.text_field :img_url %><br>
+    <label>Do You have Good or Bad Intentions?</label>
+    <%= f.select :alignment, ["Good", "Bad"] %><br>
+ 
+
+    <label> Hourly Rate </label>
+    <%= f.text_field :price %><br>
+    <div>
+    <%= f.submit %>
+    </div> 
+    
+<% end %>
+
+<div>
+<%= button_to "Delete This User", user_path(@user), method: :delete %>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br> 
+<p></p>

@@ -1,0 +1,126 @@
+<% if @user.is_hero == true %>
+    <h1>Hero Page</h1>
+<% else %>
+    <h1>User Page</h1>
+<% end %> 
+
+<% if flash[:errors] %>
+  <h2><%= flash[:errors] %></h2>
+<% end %>
+
+
+<h2>Username: <%= @user.username %></h2>
+<% if @user.is_hero == false %>
+    <h3>First Name: <%= @user.first_name %></h3>
+    <h3>Last Name: <%= @user.last_name %></h3>
+<else>
+    <h3>Hero Name: <%= @user.name %></h3>
+<% end %>
+<h3>Location: <%= @user.location %></h3>
+
+<% if @current_user.is_premium == false %>
+    <% if session[:view_count] % 2 == 1 %>
+    <iframe width="656" height="489" src="https://www.youtube.com/embed/WWaLxFIVX1s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% else %>
+    <iframe width="821" height="462" src="https://www.youtube.com/embed/bEb1SjidOlA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %> 
+<% end %>
+
+
+<% if @user.is_hero == true %>
+    <p></p>
+    Hourly Rate: <%= @user.price %><br>
+
+    <h2>Ability Ratings </h2>
+        Intelligence: <%= @user.intelligence %><br>
+        Strength: <%= @user.strength %><br>
+        Speed: <%= @user.speed %><br>
+        Durability: <%= @user.durability %><br>
+        Power: <%= @user.power %><br>
+        Combat: <%= @user.combat %><br>
+       
+        <% if @user.alignment == nil %>
+            The Light Side or the Dark, this Hero is currently undecided.
+        <% else %>
+            This Hero is currently listed as a <%= @user.alignment %> hero.<br>
+        <%end%>
+<% end %>
+
+<h4>If You are <%= @user.name %> Here is a <%= link_to 'Link to Edit Your Profile', edit_user_path(@user) %></h4>
+
+<%if @user.is_hero == true %>
+    <% if @user.hero_appointments.any? %>  
+        <h2>List of booked appointments as a hero:</h2> 
+        <% @user.hero_appointments.each do |appt| %>
+            <% cust = User.find_by(id: appt.customer_id) %> 
+                <p></p>From <%= appt.start_time %> <%= appt.start_ampm %> to <%= appt.end_time %> <%= appt.end_ampm %> - Location: <%= appt.location %><br>
+                Client: <%= cust.first_name %> <%= cust.last_name %><br>
+                Services Requested: <%= appt.description_of_service %><br>      
+            <% end %>
+    <% else %> 
+        <h3>This user has yet to book any appointments as a hero.</h3> 
+    <% end %>
+<% end %>
+
+
+<% if @user.customer_appointments.any? %>  
+    <h2>List of booked appointments as a customer:</h2> 
+    <% @user.customer_appointments.each do |appt| %>
+        <% if Superhero.find_by(id: appt.superhero_id) %>  
+            <% provider = Superhero.find_by(id: appt.superhero_id) %>  
+        <% elsif User.find_by(id: appt.hrs_id) %> 
+            <% provider = User.find_by(id: appt.hrs_id) %> 
+        <% end %>
+              <p></p>From <%= appt.start_time %> <%= appt.start_ampm %> to <%= appt.end_time %> <%= appt.end_ampm %> - Location: <%= appt.location %><br>
+              Hero: <%= provider.name %><br>
+              Services Requested: <%= appt.description_of_service %><br>
+    <% end %>
+<% else %> 
+    <h3>This user has yet to book any appointments as a customer.</h3> 
+<% end %>
+
+<% if @user.is_hero == true %>
+    <h2> Book an Appointment with <%= @user.name %></h2>
+
+    <%= form_for @appointment do |f| %>
+        <%= f.label :location %><br>
+        <%= f.select :location, ["DC", "NY"] %><br>
+
+        <%= f.label :start_time %><br>
+        <%= f.select :start_time, [1,2,3,4,5,6,7,8,9,10,11,12] %>
+        <%= f.select :start_ampm, ["AM", "PM"] %><br>
+
+        <%= f.label :end_time %><br>
+        <%= f.select :end_time, [1,2,3,4,5,6,7,8,9,10,11,12] %>
+        <%= f.select :end_ampm, ["AM", "PM"] %><br>
+
+        <%= f.label :description_of_service %>
+        <%= f.select :description_of_service, ["Protection", "Entertainment", "Chores", "Travel", "Murder"] %>
+
+        <%= f.hidden_field :customer_id, :value => @current_user.id %>
+        <%= f.hidden_field :hrs_id, :value => @user.id %> 
+
+        <%= f.submit %>
+
+    <% end %> 
+
+<% end %>
+
+<p></p>
+<% if @user.img_url != nil %>
+<%= image_tag("#{@user.img_url}") %>
+<% end %> 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p></p>
