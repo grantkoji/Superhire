@@ -72,7 +72,7 @@ class Appointment < ApplicationRecord
                 end
             end
         end
-        byebug
+      
 
         if provider_booked == true
             errors.add(:start_time, "invalid. Your requested Hero is already booked at this given time frame.")
